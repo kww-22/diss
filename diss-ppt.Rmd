@@ -1,0 +1,1100 @@
+---
+title: "The Effect of Intensity on Overhead Throwing Mechanics"
+subtitle: "Implications for Throwing Rehabilitation"
+author: 
+  name: "Kyle Wasserberger"
+  company: "School of Kinesiology - Auburn University"
+  twitter: "kww_AU"
+date: "Dissertation Proposal; Spring 2021"
+output: 
+  ioslides_presentation:
+    css: styles.css
+    widescreen: true
+    logo: imgs/logo.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "center",
+	warning = FALSE
+)
+#knitr::read_chunk('code/hyp-quad-regs.R')
+knitr::read_chunk('code/plot-messing.R')
+par.def <- par()
+```
+
+```{r load and clean pilot data, include=FALSE}
+
+# load-data
+
+pilot.data <- read.csv("~/Box/Dissertation/pilot-data/pilot-data.csv")
+
+# add-vars
+
+participants <- unique(pilot.data$pid)
+
+p01idx <- which(pilot.data$pid == "p01")
+p02idx <- which(pilot.data$pid == "p02")
+p03idx <- which(pilot.data$pid == "p03")
+p04idx <- which(pilot.data$pid == "p04")
+p05idx <- which(pilot.data$pid == "p05")
+p06idx <- which(pilot.data$pid == "p06")
+
+p01elbMin <- rep(min(pilot.data$elbVar[p01idx]),length(p01idx))
+p02elbMin <- rep(min(pilot.data$elbVar[p02idx]),length(p02idx))
+p03elbMin <- rep(min(pilot.data$elbVar[p03idx]),length(p03idx))
+p04elbMin <- rep(min(pilot.data$elbVar[p04idx]),length(p04idx))
+p05elbMin <- rep(min(pilot.data$elbVar[p05idx]),length(p05idx))
+p06elbMin <- rep(min(pilot.data$elbVar[p06idx]),length(p06idx))
+
+p01shldrMin <- rep(min(pilot.data$shldrIR[p01idx]),length(p01idx))
+p02shldrMin <- rep(min(pilot.data$shldrIR[p02idx]),length(p02idx))
+p03shldrMin <- rep(min(pilot.data$shldrIR[p03idx]),length(p03idx))
+p04shldrMin <- rep(min(pilot.data$shldrIR[p04idx]),length(p04idx))
+p05shldrMin <- rep(min(pilot.data$shldrIR[p05idx]),length(p05idx))
+p06shldrMin <- rep(min(pilot.data$shldrIR[p06idx]),length(p06idx))
+
+p01elbmax <- rep(max(pilot.data$elbVar[p01idx]),length(p01idx))
+p02elbmax <- rep(max(pilot.data$elbVar[p02idx]),length(p02idx))
+p03elbmax <- rep(max(pilot.data$elbVar[p03idx]),length(p03idx))
+p04elbmax <- rep(max(pilot.data$elbVar[p04idx]),length(p04idx))
+p05elbmax <- rep(max(pilot.data$elbVar[p05idx]),length(p05idx))
+p06elbmax <- rep(max(pilot.data$elbVar[p06idx]),length(p06idx))
+
+p01shldrmax <- rep(max(pilot.data$shldrIR[p01idx]),length(p01idx))
+p02shldrmax <- rep(max(pilot.data$shldrIR[p02idx]),length(p02idx))
+p03shldrmax <- rep(max(pilot.data$shldrIR[p03idx]),length(p03idx))
+p04shldrmax <- rep(max(pilot.data$shldrIR[p04idx]),length(p04idx))
+p05shldrmax <- rep(max(pilot.data$shldrIR[p05idx]),length(p05idx))
+p06shldrmax <- rep(max(pilot.data$shldrIR[p06idx]),length(p06idx))
+
+elbVarMin <- c(p01elbMin, p02elbMin, p03elbMin, p04elbMin, p05elbMin, p06elbMin)
+elbVarMax <- c(p01elbmax, p02elbmax, p03elbmax, p04elbmax, p05elbmax, p06elbmax)
+shldrIrMin <- c(p01shldrMin, p02shldrMin, p03shldrMin, p04shldrMin, p05shldrMin, p06shldrMin)
+shldrIrMax <- c(p01shldrmax, p02shldrmax, p03shldrmax, p04shldrmax, p05shldrmax, p06shldrmax)
+
+pilot.data$elbVarMin <- elbVarMin
+pilot.data$elbVarMax <- elbVarMax
+pilot.data$shldrIrMin <- shldrIrMin
+pilot.data$shldrIrMax <- shldrIrMax
+
+pilot.data$CelbVar <- NaN
+pilot.data$CelbVar[p01idx] <- pilot.data$elbVar[p01idx] - pilot.data$elbVarMin[p01idx]
+pilot.data$CelbVar[p02idx] <- pilot.data$elbVar[p02idx] - pilot.data$elbVarMin[p02idx]
+pilot.data$CelbVar[p03idx] <- pilot.data$elbVar[p03idx] - pilot.data$elbVarMin[p03idx]
+pilot.data$CelbVar[p04idx] <- pilot.data$elbVar[p04idx] - pilot.data$elbVarMin[p04idx]
+pilot.data$CelbVar[p05idx] <- pilot.data$elbVar[p05idx] - pilot.data$elbVarMin[p05idx]
+pilot.data$CelbVar[p06idx] <- pilot.data$elbVar[p06idx] - pilot.data$elbVarMin[p06idx]
+
+pilot.data$CshldrIR <- NaN
+pilot.data$CshldrIR[p01idx] <- pilot.data$shldrIR[p01idx] - pilot.data$shldrIrMin[p01idx]
+pilot.data$CshldrIR[p02idx] <- pilot.data$shldrIR[p02idx] - pilot.data$shldrIrMin[p02idx]
+pilot.data$CshldrIR[p03idx] <- pilot.data$shldrIR[p03idx] - pilot.data$shldrIrMin[p03idx]
+pilot.data$CshldrIR[p04idx] <- pilot.data$shldrIR[p04idx] - pilot.data$shldrIrMin[p04idx]
+pilot.data$CshldrIR[p05idx] <- pilot.data$shldrIR[p05idx] - pilot.data$shldrIrMin[p05idx]
+pilot.data$CshldrIR[p06idx] <- pilot.data$shldrIR[p06idx] - pilot.data$shldrIrMin[p06idx]
+
+pilot.data$elbVar2 <- pilot.data$elbVar^2
+pilot.data$shldrIR2 <- pilot.data$shldrIR^2
+pilot.data$CelbVar2 <- pilot.data$CelbVar^2
+pilot.data$CshldrIR2 <- pilot.data$CshldrIR^2
+pilot.data$Cmass <- pilot.data$mass - mean(pilot.data$mass)
+```
+
+
+
+<!--------------------------------------------code chunk for footnotes---->
+
+<style>
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  margin-left: 55px;
+  width: 80%;
+  font-size: 0.4em;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html(fnNum.sup());
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
+
+<!------------------------------------------beginning of presentation---->
+
+## Thank you committee members!
+
+Gretchen Oliver (chair)
+
+- Professor; School of Kinesiology
+
+Wendy Weimar
+
+- Professor; School of Kinesiology
+
+David Shannon
+
+- Humana-Germany-Sherman Distinguished Professor; Educational Foundations, Leadership, and Technology
+
+William Murrah
+
+- Assistant Professor; Educational Foundations, Leadership, and Technology
+
+# Background
+
+- <emph>Background</emph>
+  + Purpose
+- Research Aims & Q's
+- Methods
+- Stats
+- Limitations & Delimitations
+
+## Spring, 2011
+
+<img src="imgs/tj-me.jpg" alt="yours truly tj" class="centerimg" style="width:60%">
+
+##
+
+<img src="imgs/injury-hs.png" alt="shoulder and elbow injury trends" class="centerimg">
+
+<footnote class="footnotetext-hide">*UCL Surgeries on Adolescent Baseball Pitchers* - American Sports Medicine Institute </footnote>
+
+f
+
+## {data-background=imgs/tj.jpg data-background-size=cover}
+
+<bigtext class="centertext">$395,000,000</bigtext>
+
+<footnote class="footnotetext-hide">Meldau (2019). Cost analysis of Tommy-John surgery for major-league baseball teams. *Journal of Shoulder and Elbow Surgery*; 29(1):121-25</footnote>
+
+## Overhead throwing
+
+<center>
+<video id="burdi-injury" src="https://media.giphy.com/media/U51QW8enibshmY8z9m/giphy.mp4" loop="true" muted="true" autoplay="true" width="800px" controls></video>
+</center>
+
+<footnote class="footnotetext-hide">MLB.tv</footnote>
+
+## Overhead throwing
+
+<img src="imgs/pitchingphases.png" alt="phases of the pitching motion" class="centerimg">
+
+<footnote class="footnotetext-hide">Chu (2009). Biomechanical Comparison between Elite Female and Male Baseball Pitchers. *Journal of Applied Biomechanics*; 25:22-31</footnote>
+
+
+## Overhead throwing
+
+<img src="imgs/pitchingphases-marked.png" alt="phases of the pitching motion" class="centerimg">
+
+<footnote class="footnotetext-hide">Chu (2009). Biomechanical Comparison between Elite Female and Male Baseball Pitchers. *Journal of Applied Biomechanics*; 25:22-31</footnote>
+
+## Shoulder & elbow joint loads
+
+<div class="columns-2">
+
+<img src="imgs/fleisig-title.png" alt="Fleisig 1995" class="centerimg" style="width:90%">
+<img src="imgs/ir-torque.png" alt="shoulder torque" class="centerimg" style="width:90%">
+<img src="imgs/var-torque.png" alt="elbow torque" class="centerimg" style="width:90%">
+
+- 3-7% $BW\cdot H$ 
+  + ~ 30(ish) - 100(ish) $N \cdot m$
+- Shoulder rotation torque stresses glenoid labrum, prox. biceps tendon, & rotator cuff musc.
+- Elbow valgus torque stresses flexor pronator mass & UCL
+
+</div>
+
+<footnote class="footnotetext-hide">Fleisig (1995). Kinetics of Baseball Pitching with Implications About Injury Mechanisms. *The American Journal of Sports Medicine*; 23(2):233-39</footnote> 
+
+<footnote class="footnotetext-hide">Fleisig (1999). Kinematic and kinetic comparison of baseball pitching among various levels of development. *Journal of Biomechanics*; 32(1),371-75</footnote>
+
+## Shoulder & elbow joint loads & injury
+
+<div class="columns-2">
+
+  <img src="imgs/anz-title.png" alt="Anz 2010" class="centerimg" style="width:75%; margin-bottom:10px">
+  <img src="imgs/anz-elb.png" alt="elb valgus & injury" class="centerimg" style="width:75%; margin-bottom:0">
+  <img src="imgs/anz-shldr.png" alt="shoulder rotation & injury" class="centerimg" style="width:75%">
+
+  - Limited evidence &#8679; torques @ MER in injured vs. non-injured pitchers
+    + 1 prospective study ($n$ = 25)
+    
+BUT...
+
+  - &#8679; variability btwn pitchers
+    + just b/c I know your joint load, doesn't mean I can predict your risk of injury
+  - Energy flow & segment power analyses?
+
+
+<footnote class="footnotetext-hide">Anz (2010). Correlation of torque and elbow injury in professional baseball pitchers. *The American Journal of Sports Medicine*; 38(7):1368-74</footnote>
+
+</div>
+
+<!-- ## Segment powers & energies -->
+
+<!-- <img src="imgs/aguinaldo-title.png" alt="aguinaldo title" class="centerimg" style="width:50%"> -->
+<!-- <img src="imgs/aguinaldo-fig.png" alt="aguinaldo fig" class="centerimg" style="width:65%"> -->
+
+<!-- <footnote class="footnotetext-hide">Aguinaldo (2019). Segmental Power Analysis of Sequential Body Motion and Elbow Valgus Loading During Baseball Pitching. *Orthopaedic Journal of Sports Medicine*; 7(2)</footnote> -->
+
+## Segment powers & energies
+
+<img src="imgs/howenstein-title.png" alt="aguinaldo title" class="centerimg" style="width:50%">
+<img src="imgs/howenstein-fig.png" alt="aguinaldo fig" class="centerimg" style="width:65%">
+
+<footnote class="footnotetext-hide">Howenstein (2018). Energy Flow Analysis to Investigate Youth Pitching Velocity and Efficiency. *Medicine and Science in Sports and Exercise*</footnote>
+
+##
+
+<img src="imgs/genabstrans-title.png" alt="energy paper figs" class="centerimg" style="width:30%">
+<img src="imgs/genabstransfigs.png" alt="energy paper figs" class="centerimg" style="width:100%">
+
+<footnote class="footnotetext-hide">Wasserberger (*in review*). Energy Generation Absorption and Transfer at the Shoulder and Elbow in Youth Baseball Pitchers</footnote>
+
+<!-- ## -->
+
+<!-- <center> -->
+<!-- <video id="burdi-injury" src="imgs/burdi-injury.mp4" loop="true" muted="true" autoplay="true" width="900px" controls></video> -->
+<!-- </center> -->
+
+<!-- <footnote class="footnotetext-hide">MLB.tv</footnote> -->
+
+## So you're injured... {.flexbox .vcenter}
+
+<img src="imgs/surgery-to-rehab.png" alt="surgery-to-rehab" class="centerimg" style="width:90%">
+
+## Rehab
+
+<img src="imgs/4phases-of-rehab.png" alt="4 phases of rehab" class="centerimg" style="width:90%">
+
+<footnote class="footnotetext-hide">Wilk (2016). Rehabilitation of the overhead throwing athlete: there is more to it than just external rotation/internal rotation strengthening. *PM&R*; 8:S78-90.</footnote>
+
+
+## Rehab
+
+<img src="imgs/4phases-of-rehab-marked.png" alt="4 phases of rehab" class="centerimg" style="width:90%">
+
+<footnote class="footnotetext-hide">Wilk (2016). Rehabilitation of the overhead throwing athlete: there is more to it than just external rotation/internal rotation strengthening. *PM&R*; 8:S78-90.</footnote>
+
+## Interval throwing programs
+
+<div class="columns-2">
+  
+  <img src="imgs/itp_reinold.png" alt="itp example" class="centerimg" style="width:100%">
+
+  - Gradually reintroduce stress to injured tissues
+  - Manipulate throwing distance & number
+  - Usually guided by subjective measures
+    + effort
+    + soreness
+
+</div>
+
+<footnote class="footnotetext-hide">Reinold (2002). Interval sport programs: guidelines for baseball, tennis, and golf. *The Journal of Orthopaedic and Sports Physical Therapy*; 32(6):293–8</footnote>
+
+## Reinjury following ITP
+
+<img src="imgs/makhni-shldr.png" alt="shoulder injury study" class="centerimg" style="width:70%">
+<img src="imgs/makhni-shldr2.png" alt="shoulder injury study" class="centerimg" style="width:70%">
+
+<footnote class="footnotetext-hide">Makhni (2015). Return to competition, re-injury, and impact on performance of preseason shoulder injuries in Major League Baseball pitchers. *The Physician and Sportsmedicine*; 43(3):300-6</footnote>
+
+
+## Reinjury following ITP
+
+<img src="imgs/makhni-elb.png" alt="elbow injury study" class="centerimg" style="width:80%">
+<img src="imgs/makhni-elb2.png" alt="elbow injury study" class="centerimg" style="width:80%">
+
+<footnote class="footnotetext-hide">Makhni (2014). Performance, Return to Competition, and Reinjury After Tommy John Surgery in Major League Baseball Pitchers. *The American Journal of Sports Medicine*; 42(6):1,323-32</footnote>
+
+# 
+
+<bigtext class="centertext" style="padding-top:5%">What can we do to make rehab better?</bigtext>
+
+## Subjective effort = problematic?
+
+<img src="imgs/melugin-title.png" alt="melugin-title" class="centerimg" style="width:50%">
+<img src="imgs/melugin-fig1.png" alt="melugin-fig1" class="centerimg" style="width:50%">
+  
+<footnote class="footnotetext-hide">Melugin (2019). Baseball Pitchers’ Perceived Effort Does Not Match Actual Measured Effort During a Structured Long-Toss Throwing Program. *The American Journal of Sports Medicine*; 47(8):1949–54</footnote>
+
+## Subjective effort = problematic?
+
+<img src="imgs/lizzio-title.png" alt="lizzio-title" class="centerimg" style="width:45%">
+<img src="imgs/lizzio-fig2.png" alt="lizzio-fig2" class="centerimg" style="width:45%">
+
+<footnote class="footnotetext-hide">Lizzio (2020). Importance of radar gun inclusion during return-to-throwing rehabilitation following ulnar collateral ligament reconstruction in baseball pitchers: a simulation study. *Journal of Shoulser & Elbow Surgery*; 29:587-92</footnote>
+
+## Making rehab better
+
+- Quantify workload objectively
+- Model ***individual*** responses to workload $\Delta$s
+- Ensure rehab workloads eventually replicate performance workloads
+
+## Making rehab better
+
+- Quantify workload objectively
+  + already being done
+   + limitations: categorical effort & limited to 1 IMU
+- Model ***individual*** responses to workload $\Delta$s
+  + <emph>not being done</emph>
+- Ensure rehab workloads eventually replicate performance workloads
+  + easier once we have steps 1 & 2
+
+<!-- ## Recap -->
+
+<!-- - Shoulder & elbow injuries are a problem for throwers -->
+<!--   + ~ 50% will get re-injured -->
+<!-- - Little research into biomechanics of throwing in rehab setting -->
+<!-- - Little attention payed to intra-individual growth -->
+<!-- - Previous sub-max studies mostly restricted to 1 IMU -->
+
+## Purpose
+
+- Model ***individual*** responses to workload $\Delta$s
+  + intra-individual joint load growth curves 
+  + inter-individual growth curve differences
+
+# Research Aims & Q's
+
+- Background
+  + Purpose
+- <emph>Research Aims & Q's</emph>
+- Methods
+- Stats
+- Limitations & Delimitations
+
+## Aim 1: Model intra-participant relationship between throwing arm joint loads and throwing speed
+
+- RQ~1.1~-RQ~1.4~: What is the functional form of the relationship between throwing arm joint loads and throwing speed as participants increase throwing intensity?
+  + H~0~: The relationship between throwing arm joint loads and throw speed will be best modeled using a quadratic relationship.
+
+- IVs
+  + Shoulder external rotation torque
+  + Elbow valgus torque
+  + Thorax-upper arm energy transfer
+  + Upper arm-forearm energy transfer
+
+## Aim 2: Model inter-participant joint load growth differences
+
+- RQ~2.1~: Does allowing different initial statuses (random intercepts) improve model fits? If so, do second level explanatory variables help explain intercept variance?
+  + H~0~: Model intercepts will differ between participants. Intercept variance will be explained by pitcher anthropometrics and max throw speed.
+
+- RQ~2.2~: Does allowing different rates of increase in variables from RQ~1.1~–RQ~1.4~ (random slopes) differ between participants? If so, do second level explanatory variables help explain the rate of increase?
+  + H~0~: The rate of increase fin variables from RQ~1.1~–RQ~1.4~ will differ between participants. Variance in the rate of increase will be explained by pitcher anthropometrics and max throw speed.
+
+# Methods
+
+- Background
+  + Purpose
+- Research Aims & Q's
+- <emph>Methods</emph>
+- Stats
+- Limitations & Delimitations
+
+## Methods
+
+- Informed consent
+- Inclusion criteria check
+  + 14-25 yrs old
+  + free from injury for past 6 months
+  + played at high school level
+- Non-throwing warm up
+- Connect to motion capture system
+  + digitize
+- Throwing warm up
+
+## Methods
+
+- Throwing warm up
+  + gradually progress from min to max effort
+  + standardized lower body mechanics
+    + no crow hops
+    + same leg kick throughout
+
+## Data collection
+
+- Pilot data ~ AU SMML
+- Additional data ~ Driveline Baseball
+
+<img src="imgs/data-collection-sites.png" alt="smml logo" class="centerimg" style="width:75%">
+
+
+
+## Equipment (SMML)
+
+<div class="columns-2">
+  
+  <img src="imgs/smml.jpg" alt="smml" class="centerimg" style="width:100%">
+
+- trakSTAR&trade; extended range transmitter + flock of birds 6 DOF electromagnetic sensors (Ascension Technologies Inc., Burlington VT, USA)
+  + 240 Hz
+- 40 x 60 cm forceplate (Bertec Corp., Columbus, OH, USA)
+  + 1200 Hz
+- ***The MotionMonitor*** motion capture software
+
+</div>
+
+## Equipment (Driveline)
+
+<div class="columns-2">
+
+<img src="imgs/driveline-setup.jpg" alt="driveline setup" class="centerimg" style="width:100%">
+
+- Optitrak motion capture system (Optitrak, Corvallis, OR, USA)
+  + 8 Prime13 cameras
+  + 240 Hz
+- Motive motion capture software
+
+</div>
+
+## 6 DOF sensor placement
+
+<div class="columns-2">
+  
+  <img src="imgs/sensors-front.jpg" alt="sensors front" class="centerimg" style="width:75%">
+  
+  <img src="imgs/sensors-rear.jpg" alt="sensors rear" class="centerimg" style="width:75%">
+
+</div>
+
+## Reflective marker placement
+
+<div class="columns-2">
+  
+  <img src="imgs/dl-markers-front.png" alt="sensors front" class="centerimg" style="width:100%">
+  
+  <img src="imgs/dl-markers-rear.png" alt="sensors rear" class="centerimg" style="width:100%">
+
+</div>
+
+
+## Biomechanical model
+
+<div class="columns-2">
+
+  <img src="imgs/bony-landmarks.png" alt="bony landmarks" class="centerimg" style="width:100%">
+
+  <img src="imgs/biomech-model.gif" alt="model animation" class="centerimg" style="width:90%; margin-top:8em">
+
+
+<footnote class="footnotetext-hide">Driveline Baseball. Biomechanics Rewind: A look at the numbers from the last six months</footnote>
+
+</div>
+
+## Biomechanical model
+
+<div class="columns-2">
+
+  <img src="imgs/joint-centers.png" alt="bony landmarks" class="centerimg" style="width:90%">
+  <img src="imgs/euler.png" alt="bony landmarks" class="centerimg" style="width:90%">
+
+  <img src="imgs/biomech-model.gif" alt="model animation" class="centerimg" style="width:90%; margin-top:8em">
+
+</div>
+
+<footnote class="footnotetext-hide">Driveline Baseball. Biomechanics Rewind: A look at the numbers from the last six months</footnote>
+<footnote class="footnotetext-hide">Bell (1990). A comparison of the accuracy of several hip center location prediction methods. *Journal of Biomechanics*; 23(6): 617-21.</footnote>
+<footnote class="footnotetext-hide">Chaffin (2006).Occupational Biomechanics.</footnote>
+<footnote class="footnotetext-hide">Biryukova (2000). Kinematics of human arm reconstructed from spatial tracking system recordings. *Journal of Biomechanics*; 33(8): 985-95.</footnote>
+<footnote class="footnotetext-hide">Ehrig (2006). A survey of formal methods for determining the centre of rotation of ball joints. *Journal of Biomechanics*; 39(15): 2798-2809.</footnote>
+
+## Data processing
+
+<div class="columns-2">
+
+<img src="imgs/motionmonitor.png" alt="TMM logo" class="centerimg" style="width:80%">
+<img src="imgs/matlab.png" alt="Matlab logo" class="centerimg" style="width:70%">
+
+- Extract data for thorax, upper arm, & forearm
+- Sensor positions & orientations filtered with 4th order Butterworth filter (cutoff 15.2 Hz)
+- Kinematic & kinetic data calculated in ***The MotionMonitor***
+  + anthropometrics taken from Zatsiorsky
+- Exported to MATLAB for energy calculations
+
+</div>
+
+<footnote class="footnotetext-hide">Yu (1999). Estimate of the optimum cutoff frequency for the butterworth low-pass digital filter. *Journal of Biomechanics*; 15(3): 318-29.</footnote>
+
+<footnote class="footnotetext-hide">Wasserberger (2021). Energy generation, absorption, and transfer at the shoulder and elbow in youth baseball pitchers. *Journal of Sport Biomechanics*; (*In review*)</footnote>
+
+<footnote class="footnotetext-hide">Zatsiorsky (2002). Kinetics of Human Motion. *Human Kinetics*</footnote>
+
+## Data processing
+
+- Elbow varus/valgus torque
+  + torque exerted BY forearm ON upper arm about forearm A/P axis
+- Shoulder internal/external rotation torque
+  + torque exerted BY upper arm ON thorax about upper arm longitudinal axis
+- Energy transfer
+  + integral of power curve btwn foot contact & ball release
+
+<footnote class="footnotetext-hide">Aguinaldo (2007). Effects of upper trunk rotation on shoulder joint torque among baseball pitchers of various levels. Journal of Applied Biomechanics, 23(1):42–51</footnote>
+
+<footnote class="footnotetext-hide">Elliott (2003). Technique effects on upper limb loading in the tennis serve. Journal of Science and Medicine in Sport, 6(1):76–87</footnote>
+
+<footnote class="footnotetext-hide">Wasserberger (2021). Energy generation, absorption, and transfer at the shoulder and elbow in youth baseball pitchers. *Journal of Sport Biomechanics*; (*In review*)</footnote>
+
+# Stats
+
+- Background
+  + Purpose
+- Research Aims & Q's
+- Methods
+- <emph>Stats</emph>
+- Limitations & Delimitations
+
+## Linear vs. quadratic regression
+
+<div class="columns-2">
+  <img src="imgs/reg-types.jpg" alt="regression types" class="centerimg" style="width:100%">
+
+  - Linear: 
+
+  $$\hat{y}=\beta_{0}+\beta_{1}X_{1}+\epsilon_{i} \tag{1}$$
+
+</div>
+
+<footnote class="footnotetext-hide">BMC Bioinformatics</footnote>
+
+## Linear vs. quadratic regression
+
+<div class="columns-2">
+  <img src="imgs/reg-types.jpg" alt="regression types" class="centerimg" style="width:100%">
+
+  - Linear: 
+
+  $$\hat{y}=\beta_{0}+\beta_{1}X_{1}+\epsilon_{i} \tag{1}$$
+
+  - Quadratic: 
+
+  $$\hat{y}=\beta_{0}+\beta_{1}X_{1}+\beta_{2}X_{1}^{2}+\epsilon_{i} \tag{2}$$
+
+</div>
+
+<footnote class="footnotetext-hide">BMC Bioinformatics</footnote>
+
+## Linear vs. quadratic regression
+
+<div class="columns-2">
+  <img src="imgs/reg-types-marked.png" alt="regression types" class="centerimg" style="width:100%">
+
+  - Linear: 
+
+  $$\hat{y}=\beta_{0}+\beta_{1}X_{1}+\epsilon_{i} \tag{1}$$
+
+  - Quadratic: 
+
+  $$\hat{y}=\beta_{0}+\beta_{1}X_{1}+\beta_{2}X_{1}^{2}+\epsilon_{i} \tag{2}$$
+
+  - Diminishing returns w/ &#8679; $X$
+  
+  $$\beta_{1} > 0$$
+  $$\beta_{2} < 0$$
+</div>
+
+<footnote class="footnotetext-hide">BMC Bioinformatics</footnote>
+
+## Why quadratic?
+
+<div class="columns-2">
+  <img src="imgs/reg-types-marked.png" alt="regression types" class="centerimg" style="width:100%">
+
+- Allows for changing influence of IV on DV
+  + basically an interaction with itself (social distancing approved)
+
+- Assuming uniform influence of IV through all levels of DV unrealistic
+  + esp. given known relationship btwn velocity & kinetic energy
+
+</div>
+
+<footnote class="footnotetext-hide">BMC Bioinformatics</footnote>
+
+
+## Multilevel models (hello subscripts!)
+
+<div class="columns-2">
+  
+  <img src="imgs/slowik-title.png" alt="slowik title" class="centerimg" style="width:90%">
+  <img src="imgs/slowik.png" alt="slowik fig" class="centerimg" style="width:90%">
+
+- Let $\beta$s vary by participant
+
+$\hat{y}_{ij}=\beta_{0j}+\beta_{1j}X_{1ij}+\beta_{2j}X_{1ij}^{2}+\epsilon_{ij} \tag{3}$
+
+- Try to predict $\beta$s
+
+$\beta_{0j}=\gamma_{00}+\gamma_{01}Z_{j}+u_{0j} \tag{4}$
+
+$\beta_{1j}=\gamma_{10}+\gamma_{11}Z_{j}+u_{1j} \tag{5}$
+
+$\beta_{2j}=\gamma_{20}+\gamma_{21}Z_{j}+u_{2j} \tag{6}$
+
+- where $Z$ ~ some level 2 predictor
+
+<footnote class="footnotetext-hide">Slowik (2019). Fastball Velocity and Elbow-Varus Torque in Professional Baseball Pitchers. *Journal of Athletic Training*; 54(3):296–301.</footnote>
+
+<!-- ## Multilevel growth models {.flexbox .vcenter} -->
+
+<!-- <div class="columns-2"> -->
+
+<!-- <img src="imgs/growth-curve-ex.png" alt="growth curve example" class="centerimg" style="width:100%"> -->
+
+<!-- - ~ RM ANOVA but doesn't ignore inter-participant variance -->
+<!-- - Model "mean" trajectory -->
+<!-- - Account for deviance from mean trajectory -->
+
+<!-- </div> -->
+
+<!-- <footnote class="footnotetext-hide">Penn State Social Science Research Institute. Growth Models with Nonlinearity in Time.</footnote> -->
+
+## Benefits of MLM & growth models{#smalltext}
+
+<div class="columns-2">
+
+<img src="imgs/Figure3-1.png" alt="growth curve example 2" class="centerimg" style="width:100%; margin-bottom:5em;">
+
+\~ RM ANOVA 
+
+BUT...
+
+- Can handle:
+  + unbalanced designs
+  + missing data
+  + nonlinear relationships
+  + heteroscadicity
+  + (in)variant covariates
+
+BUT...
+
+- Harder to interpret
+- Easy to "eyes bigger than stomach" the model
+
+</div>
+
+<footnote class="footnotetext-hide">Tu (2013). Analyzing longitudinal orthodontic data. Part 3: multilevel nonlinear growth models. *American Journal of Orthodontics and Dentofacial Orthopedics*; 144(5): 779-82.</footnote>
+
+
+## Stat summary
+
+<img src="imgs/stat-summary.png" alt="stat summary" class="centerimg" style="width:90%">
+
+- 1.1 - 1.4 = $\chi^{2}$ 1 DOF
+- 2.1 - 2.2 = AIC, BIC
+
+<!-- ## Same early on, harder throwers maintain slope better -->
+
+<!-- ```{r, dif-maxes} -->
+<!-- ``` -->
+
+<!-- ## Different early on, same max -->
+
+<!-- ```{r, same-maxes} -->
+<!-- ``` -->
+<!-- ## Statistical power analysis -->
+
+<!-- - Effect magnitude & variability -->
+<!--  + smaller & more variable effects ~ &#8679; sample size -->
+<!-- - Tricky w/ MLM -->
+<!--   + simulation -->
+
+## Power via simulation
+
+- Estimates of:
+  + effect size (how big is the reg coef?)
+  + effect variability (how much do we expect the reg coef to vary?)
+
+  
+## Power via simulation
+
+- Estimates of:
+  + effect size (how big is the reg coef?)
+  + effect variability (how much do we expect the reg coef to vary?)
+- How do we get estimates?
+  + previous studies (not the best)
+  + pilot data (better) 
+  
+## Power via simulation
+
+- Estimates of:
+  + effect size (how big is the reg coef?)
+  + effect variability (how much do we expect the reg coef to vary?)
+- How do we get estimates?
+  + previous studies (not the best)
+  + pilot data (better)
+- Once we have estimates
+  + simulate new data for many replications
+  + calculate proportion which correctly reject null hypothesis
+
+## Pilot data
+
+```{r shldr-1-plot}
+
+par(pty = 's',
+    mar = c(4.1,0,0.5,0),
+    family = 'serif')
+with(subset(pilot.data, pid == "p01"), plot(shldrIR, velo,
+                                            pch = 21,
+                                            bg = 1,
+                                            ylab = 'throwing speed (mph)',
+                                            xlab = 'shoulder rotation torque (N*m)',
+                                            main = '',
+                                            cex.axis = 1.5,
+                                            cex.lab = 1.5,
+                                            xlim = c(min(pilot.data$shldrIR)-3,max(pilot.data$shldrIR)+3),
+                                            ylim = c(min(pilot.data$velo)-3, max(pilot.data$velo)+3)))
+
+with(subset(pilot.data, pid == "p02"), points(shldrIR, velo, pch = 21, bg = 2))
+with(subset(pilot.data, pid == "p03"), points(shldrIR, velo, pch = 21, bg = 3))
+with(subset(pilot.data, pid == "p04"), points(shldrIR, velo, pch = 21, bg = 4))
+with(subset(pilot.data, pid == "p05"), points(shldrIR, velo, pch = 21, bg = 5))
+with(subset(pilot.data, pid == "p06"), points(shldrIR, velo, pch = 21, bg = 6))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p01",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p01",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p01"]), max(pilot.data$shldrIR[pilot.data$pid=="p01"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 1)
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p02",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p02",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p02"]), max(pilot.data$shldrIR[pilot.data$pid=="p02"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 2)
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p03",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p03",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p03"]), max(pilot.data$shldrIR[pilot.data$pid=="p03"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 3)
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p04",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p04",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p04"]), max(pilot.data$shldrIR[pilot.data$pid=="p04"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 4)
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p05",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p05",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p05"]), max(pilot.data$shldrIR[pilot.data$pid=="p05"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 5)
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p06",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p06",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p06"]), max(pilot.data$shldrIR[pilot.data$pid=="p06"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 6)
+```
+
+## Pilot data ("centered" on slowest throw)
+
+```{r c-shldr-1-plot}
+
+# set plotting parameters
+par(pty = 's',
+    mar = c(4.1,0,0.5,0),
+    family = 'serif')
+
+with(subset(pilot.data, pid == "p01"), plot(CshldrIR, velo,
+                                            pch = 21,
+                                            bg = 1,
+                                            ylab = 'throwing speed (mph)',
+                                            xlab = 'shoulder rotation torque (N*m)',
+                                            main = '',
+                                            sub = '',
+                                            cex.axis = 1.5,
+                                            cex.lab = 1.5,
+                                            xlim = c(min(pilot.data$CshldrIR),max(pilot.data$CshldrIR)+2),
+                                            ylim = c(min(pilot.data$velo)-5,max(pilot.data$velo)+2)))
+
+with(subset(pilot.data, pid == "p02"), points(CshldrIR, velo, pch = 21, bg = 2))
+with(subset(pilot.data, pid == "p03"), points(CshldrIR, velo, pch = 21, bg = 3))
+with(subset(pilot.data, pid == "p04"), points(CshldrIR, velo, pch = 21, bg = 4))
+with(subset(pilot.data, pid == "p05"), points(CshldrIR, velo, pch = 21, bg = 5))
+with(subset(pilot.data, pid == "p06"), points(CshldrIR, velo, pch = 21, bg = 6))
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p01",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p01",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p01"]), max(pilot.data$CshldrIR[pilot.data$pid=="p01"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 1)
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p02",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p02",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p02"]), max(pilot.data$CshldrIR[pilot.data$pid=="p02"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 2)
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p03",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p03",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p03"]), max(pilot.data$CshldrIR[pilot.data$pid=="p03"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 3)
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p04",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p04",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p04"]), max(pilot.data$CshldrIR[pilot.data$pid=="p04"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 4)
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p05",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p05",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p05"]), max(pilot.data$CshldrIR[pilot.data$pid=="p05"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 5)
+
+mod.lin <- lm(velo ~ CshldrIR, data = pilot.data[pilot.data$pid=="p06",])
+mod.quad <- update(mod.lin, . ~ . + I(CshldrIR^2), data = pilot.data[pilot.data$pid=="p06",])
+x0 <- seq(min(pilot.data$CshldrIR[pilot.data$pid=="p06"]), max(pilot.data$CshldrIR[pilot.data$pid=="p06"]), length = length(pilot.data$CshldrIR))
+y0 <- predict(mod.quad, newdata = list(CshldrIR=x0))
+
+lines(x0, y0, lwd = 3, col = 6)
+
+```
+
+
+## Pilot data
+
+```{r shldr-multiplot}
+#### multiple-plots-shoulder ####
+
+par(par.def)
+par(mfrow = c(2,3),
+    pty = 's',
+    mar = c(2,2,2,2),
+    oma = c(4, 4, 0, 0),
+    cex.axis = 1.3,
+    family = 'serif')
+
+with(subset(pilot.data, pid == "p01"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 1,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P1',
+                                            #xaxt = 'n',
+                                            #yaxt = 'n',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p01",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p01",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p01"]), max(pilot.data$shldrIR[pilot.data$pid=="p01"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col = 1)
+
+with(subset(pilot.data, pid == "p02"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 2,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P2',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p02",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p02",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p02"]), max(pilot.data$shldrIR[pilot.data$pid=="p02"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col = 2)
+
+with(subset(pilot.data, pid == "p03"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 3,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P3',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p03",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p03",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p03"]), max(pilot.data$shldrIR[pilot.data$pid=="p03"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col = 3)
+
+with(subset(pilot.data, pid == "p04"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 4,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P4',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p04",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p04",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p04"]), max(pilot.data$shldrIR[pilot.data$pid=="p04"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col = 4)
+
+with(subset(pilot.data, pid == "p05"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 5,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P5',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p05",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p05",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p05"]), max(pilot.data$shldrIR[pilot.data$pid=="p05"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col = 5)
+
+with(subset(pilot.data, pid == "p06"), plot(shldrIR, velo,
+                                            cex = 1.5,
+                                            pch = 21,
+                                            bg = 6,
+                                            ylab = '',
+                                            xlab = '',
+                                            main = 'P6',
+                                            xlim = c(min(shldrIR)-3,max(shldrIR)+3),
+                                            ylim = c(min(velo)-3, max(velo)+3)))
+
+mod.lin <- lm(velo ~ shldrIR, data = pilot.data[pilot.data$pid=="p06",])
+mod.quad <- update(mod.lin, . ~ . + I(shldrIR^2), data = pilot.data[pilot.data$pid=="p06",])
+x0 <- seq(min(pilot.data$shldrIR[pilot.data$pid=="p06"]), max(pilot.data$shldrIR[pilot.data$pid=="p06"]), length = length(pilot.data$shldrIR))
+y0 <- predict(mod.quad, newdata = list(shldrIR=x0))
+lines(x0, y0, lwd = 3, col =6)
+
+mtext('shoulder rotation torque (N*m)', side = 1, outer = TRUE, line = 2, cex = 1.5)
+mtext('throwing speed (mph)', side = 2, outer = TRUE, line = 2, cex = 1.5)
+```
+
+## Estimates
+
+<div class="columns-2">
+
+<img src="imgs/shldr-mod.png" alt="shoulder mod" class="centerimg" style="width:100%">
+
+
+- $\hat{y}_{ij}=\beta_{0j}+\beta_{1}x_{ij}+\beta_{2}x_{ij}^{2}+\epsilon_{ij}$
+  + what is our best guess for $\beta_{2}$?
+
+## Estimates
+
+<div class="columns-2">
+
+<img src="imgs/shldr-mod.png" alt="shoulder mod" class="centerimg" style="width:100%">
+
+
+- $\hat{y}_{ij}=\beta_{0j}+\beta_{1}x_{ij}+\beta_{2}x_{ij}^{2}+\epsilon_{ij}$
+  + what is our best guess for $\beta_{2}$?
+- `y ~ shldrIR + I(shldrIR^2) + (1|pid)`
+
+## Estimates
+
+<div class="columns-2">
+
+<img src="imgs/shldr-mod.png" alt="shoulder mod" class="centerimg" style="width:100%">
+
+
+- $\hat{y}_{ij}=\beta_{0j}+\beta_{1}x_{ij}+\beta_{2}x_{ij}^{2}+\epsilon_{ij}$
+  + what is our best guess for $\beta_{2}$?
+- `y ~ shldrIR + I(shldrIR^2) + (1|pid)`
+- small but consistent effect
+  + `-0.006 (0.0006)`
+    + `p = 2.45e-16`
+
+</div>
+
+## Power
+
+```{r power}
+power.data30 <- data.frame("l2n" = c(5,10,15,20,25,30,35,40),
+                         "l1n" = c(30,30,30,30,30,30,30,30),
+                         "p" = c(0,0.161,0.351,0.488,0.613,0.668,0.75,0.800))
+power.data40 <- data.frame("l2n" = c(5,10,15,20,25,30,35,40),
+                           "l1n" = c(40,40,40,40,40,40,40,40),
+                           "p" = c(0,0.271,0.455,0.611,0.696,0.792,0.848,0.887))
+
+
+
+par(par.def)
+par(pty = 's',
+    family = 'serif',
+    mar = c(4.1,4.1,2.1,2.1))
+
+plot(power.data40$l2n,power.data40$p, type = "l", lwd = 3,
+     ylab = "power",
+     xlab = "level 2 sample size",
+     main = "power simulation (n=1000)",
+     cex.axis = 1.5,
+     cex.lab = 1.5)
+lines(power.data30$l2n,power.data30$p, col = "red", lwd = 3)
+abline(a = 0.8, b = 0, lty = 2)
+
+
+legend(x = 20, y = 0.3,
+       title = "Level 1 sample size",
+       legend = c("40", "30"),
+       col=c('black', 'red'), #lty=1:3, 
+       lwd = 1.2, cex = 0.8,
+       text.font=4, bg='lightblue')
+```
+
+
+# Limitations & Delimitations
+
+- Background
+  + Purpose
+- Research Aims & Q's
+- Methods
+- Stats
+- <emph>Limitations & Delimitations</emph>
+
+## Limitations
+
+- Participant age range (14-25 years old)
+- Controlled laboratory setting
+- Effort subjectivity
+
+## Delimitations
+
+- Age range representative of majority of pitchers in need of optimized throwing rehabilitation programs
+- Kinematic data collected using a calibrated 3D motion capture system
+- Subjective effort replaced with throwing speed
+
+# Thank you! Questions?
+
+- Background
+  + Purpose
+- Research Aims & Q's
+- Methods
+- Stats
+- Limitations & Delimitations
