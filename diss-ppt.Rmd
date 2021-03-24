@@ -145,7 +145,7 @@ Gretchen Oliver (chair)
 
 - Professor; School of Kinesiology
 
-Wendy Weimar
+Wendi Weimar
 
 - Professor; School of Kinesiology
 
@@ -175,8 +175,6 @@ William Murrah
 <img src="imgs/injury-hs.png" alt="shoulder and elbow injury trends" class="centerimg">
 
 <footnote class="footnotetext-hide">*UCL Surgeries on Adolescent Baseball Pitchers* - American Sports Medicine Institute </footnote>
-
-f
 
 ## {data-background=imgs/tj.jpg data-background-size=cover}
 
