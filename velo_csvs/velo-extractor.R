@@ -6,11 +6,11 @@
 # Last Updated: 2021-04-06
 # ----------------------------------------------------
 
-library(googlesheets)
+library(googlesheets4)
 library(tidyverse)
 
-url <- 'https://docs.google.com/spreadsheets/d/1PRBYjZcG9b8jB1vttNicup2MhdabkgZY-tJQMLTPxKc/edit?ouid=103808532767151422499&usp=sheets_home&ths=true'
-sheet <- 'p00'
+url <- 'https://docs.google.com/spreadsheets/d/1PRBYjZcG9b8jB1vttNicup2MhdabkgZY-tJQMLTPxKc/'
+sheet <- 'p04'
 path <- getwd()
 
 data <-  read_sheet(ss = url, sheet = sheet)
@@ -27,5 +27,5 @@ data <-  read_sheet(ss = url, sheet = sheet)
   data_conds$Cond1 <- factor(data_conds$Cond1, levels = c('step', 'crow'))
   data_conds$Cond2 <- factor(data_conds$Cond2, levels = c('rpe','velo'))
 
-write_csv(data_warmup,str_glue(path,'/sup/velo_csvs/',sheet,'_','velos_warmup'))
-write_csv(data_conds, str_glue(path,'/sup/velo_csvs/',sheet, '_', 'velos_conds'))
+write_csv(data_warmup,str_glue(path, '/velo_csvs/', sheet,'_','velos_warmup'))
+write_csv(data_conds, str_glue(path,'/velo_csvs/',sheet, '_', 'velos_conds'))
