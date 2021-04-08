@@ -1,6 +1,9 @@
 # ----------------------------------------------------
 # Importing velos from data collection googlesheets
 # 
+# retrieves velos from googlesheet cleans the data frame
+# and saves them to the 'velo_csvs' subfolder
+# 
 # Kyle Wasserberger
 #
 # Last Updated: 2021-04-06
@@ -10,7 +13,10 @@ library(googlesheets4)
 library(tidyverse)
 
 url <- 'https://docs.google.com/spreadsheets/d/1PRBYjZcG9b8jB1vttNicup2MhdabkgZY-tJQMLTPxKc/'
+
+# input sheet you'd like to pull
 sheet <- 'p04'
+
 path <- getwd()
 
 data <-  read_sheet(ss = url, sheet = sheet)
