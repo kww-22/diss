@@ -12,7 +12,7 @@ cd(path);
 % fileDir = dir('*.exp');
 % fileDir = dir('*.txt');
   %mat_files = dir('*.m');
-  fileDir = dir('*c3d');
+  fileDir = dir('*tak');
 
 % Isolate file names from directory structure
 fileNames = {fileDir.name}.';
@@ -24,8 +24,8 @@ fileNames = {fileDir.name}.';
 numFiles = length(fileNames);
 
 %% Enter pieces of file names you wish to overwrite
-names_old = "steps";
-names_new = "step";
+names_old = "tpose";
+names_new = "warmup";
 
 fileNums = [];
 
@@ -46,7 +46,7 @@ for i = 1:length(names_old)
             movefile(fullfile(path, fileNames{names_yes(j)}), fullfile(path, strrep(fileNames{names_yes(j)}, names_old(i), names_new(i))), 'f');
         end
     % redifine fileNames and directory information
-    fileDir = dir('*c3d');
+    fileDir = dir('*tak');
     fileNames = {fileDir.name}.';
 end
 
