@@ -1,0 +1,8 @@
+library(tidyverse) 
+path <- getwd()
+data <- read.csv(str_glue(path,'/sup/velo_csvs/data_warm.csv'))
+
+ggplot(data = data, aes(x=Throw, y=Vel_warm, color = pID)) +
+  geom_point(size = 3) +
+  theme_bw() +
+  theme(aspect.ratio = 1)
