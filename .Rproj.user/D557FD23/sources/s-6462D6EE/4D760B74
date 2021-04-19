@@ -1,0 +1,26 @@
+{
+    "id": "4D760B74",
+    "path": "~/GitHub/diss/sup/velo_long_maker.R",
+    "project_path": "sup/velo_long_maker.R",
+    "type": "r_source",
+    "hash": "4236976617",
+    "contents": "",
+    "dirty": true,
+    "created": 1618869760457.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "44,89",
+        "scrollLine": "24"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1618858216,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1618870014189,
+    "read_only": false,
+    "read_only_alternatives": []
+}
