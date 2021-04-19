@@ -14,7 +14,7 @@ path <- str_glue(getwd(),'sup/velo_csvs',.sep = '/')
 files <- list.files(path = path, pattern = '_')
 
 # interactive input for number of participants
-num_peeps <- 7
+num_peeps <- 6
 
 # create numeric vectors so for loops can separate warmup and condition velo files
 file_num_conds <- seq(1,num_peeps*2,2)
