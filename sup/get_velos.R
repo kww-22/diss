@@ -31,24 +31,29 @@ get_velos <- function(){
   path <- getwd()
   
   # get demo info for level 2 vars
-  demos <- read_sheet(ss = url, sheet = 'Demos')
+  # filtering by pNums listed above
+  demos <- read_sheet(ss = url, sheet = 'Demos') %>%
+    filter(pNum %in% sheet)
   
   # loops through saving each csvs for each sheet with custom titles based on sheet name
   for(i in 1:length(sheet)){
-  data <-  read_sheet(ss = url, sheet = sheet[i])
-  data_warmup <- data %>%
-    select(c('Throw', 'Vel_warm')) %>%
-      drop_na() %>%
-        rename(velo = Vel_warm,
-               throw = Throw) %>%
-          mutate(pID = sheet[i],
-                 velo_max = max(velo),
-                 velo_min = min(velo),
+  data <- read_sheet(ss = url, sheet = sheet[i])
+  data_warmup <- data[-1,] %>%
+    select(c('Throw', 'Vel_warm'))
+  data_warmup <- data_warmup[1:demos$NumThrows[i],]
+  data_warmup <- rename(data_warmup, 
+               velo = Vel_warm,
+               throw = Throw)
+  data_warmup$velo <- as.numeric(data_warmup$velo)
+  data_warmup <- mutate(data_warmup, pID = sheet[i],
+                 velo_max = max(velo, na.rm = TRUE),
+                 velo_min = min(velo, na.rm = TRUE),
                  height = demos$Height[i],
                  mass = demos$Weight[i],
                  age = demos$Age[i],
                  hand = factor(demos$Hand[i]))
   data_warmup <- data_warmup[,c('pID','age', 'mass', 'height', 'hand', 'velo_max', 'velo_min', 'throw', 'velo')]
+
   
   data_conds <- data %>%
     select(c('Effort', 'Cond1', 'Cond2', 'Vel_cons')) %>%
