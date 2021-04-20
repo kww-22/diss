@@ -30,15 +30,9 @@ for(i in 1:I(length(files)/2)){
 
   data_new <- read.csv(str_glue(path,files[file_num_conds[i]], .sep = '/'))
   data_conds <- rbind.data.frame(data_conds, data_new)
-}
-
-for(i in 1:I(length(files)/2)){
-  
-  
   data_new <- read.csv(str_glue(path,files[file_num_warm[i]], .sep = '/'))
   data_warm <- rbind.data.frame(data_warm, data_new)
 }
-
 
 data_conds <- write.csv(data_conds, str_glue(path, 'masters', 'data_conds.csv', .sep = '/'))
 data_warm <- write.csv(data_warm, str_glue(path, 'masters', 'data_warm.csv', .sep = '/'))
