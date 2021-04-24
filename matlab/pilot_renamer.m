@@ -43,7 +43,8 @@ for i = 1:length(names_old)
         % go through each file name containing ith element of names_old and
         % replace with ith element of names_new
         for j = 1:numNames
-            movefile(fullfile(path, fileNames{names_yes(j)}), fullfile(path, strrep(fileNames{names_yes(j)}, names_old(i), names_new(i))), 'f');
+            movefile(fullfile(path, fileNames{names_yes(j)}),...
+                     fullfile(path, strrep(fileNames{names_yes(j)}, names_old(i), names_new(i))), 'f');
         end
     % redifine fileNames and directory information
     fileDir = dir('*tak');
@@ -57,7 +58,8 @@ clear i j
   
 for i = 1:length(fileNames)
     under_scores = strfind(fileNames{i},'_');
-    movefile(fullfile(path,fileNames{i}), fullfile(path, strrep(fileNames{i},fileNames{i}(under_scores(end)+1:under_scores(end)+3),string(velo_75e{i,2}*10)))) 
+    movefile(fullfile(path,fileNames{i}),...
+             fullfile(path, strrep(fileNames{i},fileNames{i}(under_scores(end)+1:under_scores(end)+3),string(velo_75e{i,2}*10)))) 
 
 end
 
