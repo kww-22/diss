@@ -27,6 +27,14 @@ get_velos <- function(){
   # edit url if you need to access different googlesheet
   url <- 'https://docs.google.com/spreadsheets/d/1PRBYjZcG9b8jB1vttNicup2MhdabkgZY-tJQMLTPxKc/'
   
+  # get individual sheet info and subset out demos and template sheets
+  sheet_info <- gs4_get(url)
+  sheet_names <- sheet_info[["sheets"]][["name"]]
+  # all participant data sheets are "pXX" so they have a sheet name of length 3
+  p_sheets <- sheet_names[str_length(sheet_names) == 3]
+  
+  select.list(p_sheets, multiple = TRUE, graphics = TRUE, preselect = p_sheets)
+  
   # get directory path for csv saving
   path <- getwd()
   

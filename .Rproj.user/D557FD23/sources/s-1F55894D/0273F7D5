@@ -3,7 +3,7 @@
     "path": "~/GitHub/diss/sup/get_velos.R",
     "project_path": "sup/get_velos.R",
     "type": "r_source",
-    "hash": "743502042",
+    "hash": "1611336217",
     "contents": "",
     "dirty": false,
     "created": 1619221999213.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "19,32",
-        "scrollLine": "68"
+        "cursorPosition": "36,0",
+        "scrollLine": "24"
     },
-    "folds": "17|24|89|0|\n",
-    "lastKnownWriteTime": 1618929157,
+    "folds": "",
+    "lastKnownWriteTime": 1619554712,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1619279387221,
+    "last_content_update": 1619554712469,
     "read_only": false,
     "read_only_alternatives": []
 }
