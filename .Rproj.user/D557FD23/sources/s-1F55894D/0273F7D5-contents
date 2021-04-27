@@ -9,7 +9,7 @@
 # 
 # author: Kyle Wasserberger
 #
-# Last Updated: 2021-04-19
+# Last Updated: 2021-04-27
 # ----------------------------------------------------
 
 # library(googlesheets4)
@@ -124,4 +124,3 @@ get_velos <- function(){
 }
 
 get_velos()
-
