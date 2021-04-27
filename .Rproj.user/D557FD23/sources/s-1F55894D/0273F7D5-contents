@@ -33,7 +33,7 @@ get_velos <- function(){
   # all participant data sheets are "pXX" so they have a sheet name of length 3
   p_sheets <- sheet_names[str_length(sheet_names) == 3]
   
-  select.list(p_sheets, multiple = TRUE, graphics = TRUE, preselect = p_sheets)
+  sheets_final <- select.list(p_sheets, multiple = TRUE, graphics = TRUE, preselect = p_sheets)
   
   # get directory path for csv saving
   path <- getwd()
