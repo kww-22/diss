@@ -17,13 +17,6 @@ library(tidyverse)
 
 get_velos <- function(){
   
-  # reads sheet names as one character variable
-  sheet <- readline('sheet name(s) (separated by commas): ')
-  
-  # split sheets into separate character variables
-  sheet <- str_split(sheet,',')
-  sheet <- str_trim(sheet[[1]])
-  
   # edit url if you need to access different googlesheet
   url <- 'https://docs.google.com/spreadsheets/d/1PRBYjZcG9b8jB1vttNicup2MhdabkgZY-tJQMLTPxKc/'
   
@@ -33,19 +26,22 @@ get_velos <- function(){
   # all participant data sheets are "pXX" so they have a sheet name of length 3
   p_sheets <- sheet_names[str_length(sheet_names) == 3]
   
-  sheets_final <- select.list(p_sheets, multiple = TRUE, graphics = TRUE, preselect = p_sheets)
+  sheets_final <- rev(select.list(p_sheets, multiple = TRUE, graphics = TRUE, preselect = p_sheets))
   
+  if(is_empty(sheets_final)){
+    stop('no sheets selected')
+  }
   # get directory path for csv saving
   path <- getwd()
   
   # get demo info for level 2 vars
   # filtering by pNums listed above
   demos <- read_sheet(ss = url, sheet = 'Demos') %>%
-    filter(pNum %in% sheet)
+    filter(pNum %in% sheets_final)
   
   # loops through saving each csvs for each sheet with custom titles based on sheet name
-  for(i in 1:length(sheet)){
-  data <- read_sheet(ss = url, sheet = sheet[i])
+  for(i in 1:length(sheets_final)){
+  data <- read_sheet(ss = url, sheet = sheets_final[i])
   data_warmup <- data[-1,] %>%
     select(c('Throw', 'Vel_warm'))
   data_warmup <- data_warmup[1:demos$NumThrows[i],]
@@ -53,7 +49,7 @@ get_velos <- function(){
                velo = Vel_warm,
                throw = Throw)
   data_warmup$velo <- as.numeric(data_warmup$velo)
-  data_warmup <- mutate(data_warmup, pID = sheet[i],
+  data_warmup <- mutate(data_warmup, pID = sheets_final[i],
                  velo_max = max(velo, na.rm = TRUE),
                  velo_min = min(velo, na.rm = TRUE),
                  height = demos$Height[i],
@@ -66,7 +62,7 @@ get_velos <- function(){
   data_conds <- data %>%
     select(c('Effort', 'Cond1', 'Cond2', 'Vel_cons')) %>%
     drop_na() %>%
-      mutate(pID = factor(sheet[i]),
+      mutate(pID = factor(sheets_final[i]),
              Effort = factor(Effort, levels = c('50', '75', '100')),
              Cond1 = factor(Cond1, levels = c('step', 'crow')),
              Cond2 = factor(Cond2, levels = c('rpe','velo')))
@@ -82,15 +78,15 @@ get_velos <- function(){
   
   data_conds <- data_conds[,c('pID','cond_int','effort','cond_stp','velo')]
   
-  file_name_warmup <- str_glue(path, '/sup/velo_csvs/', sheet[i],'_','velos_warmup')
-  file_name_conds <- str_glue(path,'/sup/velo_csvs/',sheet[i], '_', 'velos_conds')
+  file_name_warmup <- str_glue(path, '/sup/velo_csvs/', sheets_final[i],'_','velos_warmup.csv')
+  file_name_conds <- str_glue(path,'/sup/velo_csvs/',sheets_final[i], '_', 'velos_conds.csv')
   
   write_csv(data_warmup, file_name_warmup)
   write_csv(data_conds, file_name_conds)
   
   # checks to make sure csv files exist in save directory
   if(file.exists(file_name_conds) == TRUE & file.exists(file_name_warmup) == TRUE){
-    print(str_glue('velos extracted for ', sheet[i]))
+    print(str_glue('velos extracted for ', sheets_final[i]))
     }else{
     stop('something went wrong, bro')
       }
