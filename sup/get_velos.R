@@ -63,12 +63,12 @@ get_velos <- function(){
 
     # select condition throws, rename, and clean data
     data_conds <- data %>%
-      select(c('Effort', 'Cond1', 'Cond2', 'Vel_cons')) %>%
-      drop_na() %>%
-        mutate(pID = factor(sheets_final[i]),
-               Effort = factor(Effort, levels = c('50', '75', '100')),
-               Cond1 = factor(Cond1, levels = c('step', 'crow')),
-               Cond2 = factor(Cond2, levels = c('rpe','velo')))
+      select(c('Effort', 'Cond1', 'Cond2', 'Vel_cons'))
+    data_conds <- data_conds[-which(is.na(data_conds$Cond1)),] %>%
+      mutate(pID = factor(sheets_final[i]),
+             Effort = factor(Effort, levels = c('50', '75', '100')),
+             Cond1 = factor(Cond1, levels = c('step', 'crow')),
+             Cond2 = factor(Cond2, levels = c('rpe','velo')))
     
     # get condition df in same order as c3d files
     data_conds <- data_conds %>%
