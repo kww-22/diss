@@ -1,7 +1,7 @@
 library(tidyverse) 
 path <- getwd()
 
-d <- read.csv("sup/velo_csvs/masters/data_warm.csv")
+d <- read.csv("sup/velo_csvs/masters/data_warm.csv", stringsAsFactors = T)
 
 ggplot(data = d, aes(x = throw, y = velo, color = pID)) +
   geom_path(size = 1, show.legend = T) +
