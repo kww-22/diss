@@ -7,4 +7,6 @@ ggplot(data = d, aes(x = throw, y = velo, color = pID)) +
   geom_path(size = 1, show.legend = T) +
   geom_point(size = 2, show.legend = F) +
   theme_bw() +
-  theme(aspect.ratio = 1)
+  theme(aspect.ratio = 1,
+        axis.text = element_text(size = 16),
+        axis.title = element_text(size = 16))
