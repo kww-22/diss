@@ -12,7 +12,7 @@ cd(path);
 % fileDir = dir('*.exp');
 % fileDir = dir('*.txt');
   %mat_files = dir('*.m');
-  fileDir = dir('*tak');
+  fileDir = dir('*txt');
 
 % Isolate file names from directory structure
 fileNames = {fileDir.name}.';
@@ -24,7 +24,7 @@ fileNames = {fileDir.name}.';
 numFiles = length(fileNames);
 
 %% Enter pieces of file names you wish to overwrite
-names_old = "_001 ";
+names_old = " - exp";
 names_new = "";
 
 fileNums = [];

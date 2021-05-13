@@ -49,7 +49,7 @@ for i = 1:length(inds_warm)
     check_file = split(fileNames{inds_warm(i)}(1:end-4),'_');
     check_csv = {datawarm.pID{i}, 0 , datawarm.throw(i)}';
 
-    if strcmp(check_file{1},check_csv{1}) && str2double(check_file{3}) == check_csv{3} 
+    if check_file{1} == datawarm.pID{i} && str2double(check_file{3}) == check_csv{3} 
         disp('yeet fam') % replace with file renaming code
     else
         disp('naw') % replace with error generating code
@@ -57,7 +57,7 @@ for i = 1:length(inds_warm)
 end
 
 %% Draft junk
-num2str(datawarm.velo(i)*10)
+
 % replace(fileNames{inds_warm(1)},fileNames{inds_warm(1)}(end-6:end-4),num2str(10*datawarm.velo(1)))
 %
 % fullfile(path,fileNames{inds_warm(1)})
