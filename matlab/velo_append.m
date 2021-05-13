@@ -22,7 +22,7 @@ cd(path);
 % fileDir = dir('*.exp');
 % fileDir = dir('*.txt');
   %mat_files = dir('*.m');
-  fileDir = dir('*c3d');
+  fileDir = dir('*tak');
 
 % Isolate file names from directory structure
 fileNames = {fileDir.name}.';
