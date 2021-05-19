@@ -38,6 +38,36 @@ inds_cond = find(~contains(fileNames,"warmup"));
 
 datawarm = readtable('C:\Users\OliverLab\Documents\GitHub\diss\sup\velo_csvs\masters\data_warm.csv');
 
+%% Enter pieces of file names you wish to overwrite
+names_old = " - exp";
+names_new = "";
+
+fileNums = [];
+
+%% For loop to replace names_old with names_new
+for i = 1:length(names_old)
+    
+    % logical for which files contain the ith element of names_old
+    names_yes = contains(fileNames,names_old(i));
+    % return indicies instead of logical
+    names_yes = find(names_yes);
+    % number of files that contain ith element of names_old
+    numNames = length(names_yes);
+    % keep number of files for each participant
+    fileNums = [fileNums; numNames];
+        % go through each file name containing ith element of names_old and
+        % replace with ith element of names_new
+        for j = 1:numNames
+            movefile(fullfile(path, fileNames{names_yes(j)}),...
+                     fullfile(path, strrep(fileNames{names_yes(j)}, names_old(i), names_new(i))), 'f');
+        end
+    % redifine fileNames and directory information
+    fileDir = dir('*tak');
+    fileNames = {fileDir.name}.';
+end
+
+clear i j
+
 %% check to make sure pID and throw # match btwn data csv and filename
 
 % two checks: first is to ensure that pXX portion of file name matches pXX
