@@ -36,5 +36,5 @@ for(i in 1:nrow(newFileName)){
 }
 name_check <- name_check*1
 wrong_names <- sum(name_check)
-paste0("Number of wrong files: ", as.character(wrong_names))
+paste0("Files names of wrong length: ", as.character(wrong_names))
  
