@@ -7,6 +7,9 @@
 # retrieves velos from googlesheet, cleans data frame
 # and saves them to the 'velo_csvs' subfolder
 # 
+# compiles participant csvs into master csvs for warmup
+# and condition throws
+#
 # author: Kyle Wasserberger
 #
 # Last Updated: 2021-04-27
@@ -24,6 +27,7 @@ get_velos <- function(){
   # get individual sheet info and subset out demos and template sheets
   sheet_info <- gs4_get(url)
   sheet_names <- sheet_info[["sheets"]][["name"]]
+  
   # all participant data sheets are "pXX" so they have a sheet name of length 3
   p_sheets <- sheet_names[str_length(sheet_names) == 3]
   
