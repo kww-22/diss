@@ -4,7 +4,7 @@ path <- getwd()
 d <- read.csv("sup/velo_csvs/masters/data_warm.csv", stringsAsFactors = T)
 
 ggplot(data = d, aes(x = throw, y = velo, color = pID)) +
-  geom_path(size = 1, show.legend = T) +
+  geom_path(size = 1, show.legend = F) +
   geom_point(size = 2, show.legend = F) +
   theme_bw() +
   theme(aspect.ratio = 1,
