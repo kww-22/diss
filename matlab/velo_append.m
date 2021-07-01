@@ -43,6 +43,8 @@ zNumE = find(contains(fileNames(inds_v),"p12 "));
 %% read in csv data
 
 datawarm = readtable('C:\Users\OliverLab\Documents\GitHub\diss\sup\velo_csvs\masters\data_warm.csv');
+% remove random first column
+datawarm = datawarm(:,2:end);
 
 %% Enter pieces of file names you wish to overwrite
 % names_old = " - exp";
