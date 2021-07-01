@@ -8,7 +8,7 @@ d_warm <- d_warm[,-1]
 # d_conds <- d_conds[,-1]
 
 
-files_list <- list.files(str_glue(path, "/data/c3d"), pattern = "warmup")
+files_list <- list.files(str_glue(path, "/data/txts"), pattern = "warmup")
 
 # d <- read.delim(str_glue(path,"/data/txts/",files_list[37]), skip = 8)
 
@@ -53,4 +53,18 @@ for(i in 1:nrow(newFileName)){
 # 
 # # give indicies of file names containing certain pattern
 # which(str_detect(newFileName$fName, pattern = "p00"))
- 
+
+
+
+#### fix bad velos in filenames ####
+
+file_name_split <- data.frame()
+
+for(i in 1:length(files_list)){
+  file_name_parts <- str_split(files_list[i], pattern = "_")
+
+  row_data <- file_name_parts[[1]][]
+    file_name_split <- rbind.data.frame(file_name_split, row_data) 
+}
+
+colnames(file_name_split) <- c("pID", "warmup","throw_num","velo")
