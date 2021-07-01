@@ -8,7 +8,7 @@ d_warm <- d_warm[,-1]
 # d_conds <- d_conds[,-1]
 
 
-files_list <- list.files(str_glue(path, "/data_temp/txts"), pattern = "warmup")
+files_list <- list.files(str_glue(path, "/data/c3d"), pattern = "warmup")
 
 # d <- read.delim(str_glue(path,"/data/txts/",files_list[37]), skip = 8)
 
@@ -20,13 +20,25 @@ newFileName <- data.frame()
 
 for(i in 1:nrow(d_warm)){
   nameNew <- str_glue(file_path_sans_ext(files_list[i]), as.character(d_warm$velo[i]*10), .sep = "_")
-  nameNew <- str_glue(nameNew, ".txt")
+  nameNew <- str_glue(nameNew, ".c3d")
   newFileName <- rbind.data.frame(newFileName,nameNew)}
 
 colnames(newFileName) <- "fName"
 
 
+# rename files
+
+# navigate to folder containing files to be renamed
+setwd("~/GitHub/diss/data/c3d")
+
+for(i in 1:nrow(newFileName)){
+  file.rename(files_list[i],newFileName[i,])
+}
+
+
 #### error checks ####
+
+
 
 # check 1: make sure all warmup files are 22 characters long
 name_check <- data.frame()
