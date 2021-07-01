@@ -4,13 +4,13 @@ path <- getwd()
 
 d_warm <- read.csv(str_glue(path,"/sup/velo_csvs/masters/data_warm.csv"))
 d_warm <- d_warm[,-1]
-d_conds <- read.csv(str_glue(path,"/sup/velo_csvs/masters/data_conds.csv"))
-d_conds <- d_conds[,-1]
+# d_conds <- read.csv(str_glue(path,"/sup/velo_csvs/masters/data_conds.csv"))
+# d_conds <- d_conds[,-1]
 
 
-files_list <- list.files(str_glue(path, "/data/txts"), pattern = "warmup")
+files_list <- list.files(str_glue(path, "/data_temp/txts"), pattern = "warmup")
 
-d <- read.delim(str_glue(path,"/data/txts/",files_list[37]), skip = 8)
+# d <- read.delim(str_glue(path,"/data/txts/",files_list[37]), skip = 8)
 
 check_file <- str_split(files_list[1],"_")
 check_csv <- list(d_warm$pID[1],"warmup",as.character(d_warm$throw[1]))
