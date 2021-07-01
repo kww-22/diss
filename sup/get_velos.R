@@ -128,3 +128,13 @@ get_velos <- function(){
 }
 
 get_velos()
+
+
+#### how many throws from each participant? ####
+
+num_throws <- data.frame()
+
+for(i in 1:length(sheets_final)){
+  num <- length(which(str_detect(data_warm$pID, pattern = sheets_final[i])))
+  num_throws <- rbind.data.frame(num_throws,num)
+}
