@@ -41,16 +41,16 @@ for(i in 1:nrow(newFileName)){
 
 
 # check 1: make sure all warmup files are 22 characters long
-name_check <- data.frame()
-for(i in 1:nrow(newFileName)){
-  name_check_i <- str_length(newFileName$fName[1]) != 22
-  name_check <- rbind.data.frame(name_check, name_check_i)
-}
-name_check <- name_check*1
-wrong_names <- sum(name_check)
-paste0("Files names of wrong length: ", as.character(wrong_names))
-
-
-# give indicies of file names containing certain pattern
-which(str_detect(newFileName$fName, pattern = "p00"))
+# name_check <- data.frame()
+# for(i in 1:nrow(newFileName)){
+#   name_check_i <- str_length(newFileName$fName[1]) != 22
+#   name_check <- rbind.data.frame(name_check, name_check_i)
+# }
+# name_check <- name_check*1
+# wrong_names <- sum(name_check)
+# paste0("Files names of wrong length: ", as.character(wrong_names))
+# 
+# 
+# # give indicies of file names containing certain pattern
+# which(str_detect(newFileName$fName, pattern = "p00"))
  
