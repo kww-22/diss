@@ -32,13 +32,38 @@ for(i in 1:length(file_list)){
 }
 
 # customize data frame column names
-colnames(kinetics_info) <- c("max_elb_var", "max_shldr_ir")
+colnames(kinetics_info) <- c("elb_var", "shldr_ir")
 # bind data frame to velo csv master
 data_warm <- read.csv("~/GitHub/diss/sup/velo_csvs/masters/data_warm.csv", stringsAsFactors = T)
+data_warm <- data_warm[,-1]
 please_work <- cbind.data.frame(data_warm, kinetics_info)
-write.csv(please_work, "please_work.csv")
 
 
+#### get max kinetics for each participant and cbind them to please_work ####
+
+please_work %>% group_by(pID) %>%
+  summarise(max_elb_var=max(elb_var, na.rm = T),
+            max_shldr_ir=max(shldr_ir, na.rm = T)) -> max_kinetics
+
+num_throws <- table(please_work$pID)
+
+rep_velos <- data.frame()
+
+for(i in 1:length(num_throws)){
+  max_var <- matrix(rep(max_kinetics$max_elb_var[i],num_throws[i])) 
+  max_ir <- matrix(rep(max_kinetics$max_shldr_ir[i],num_throws[i]))
+  data_new <- cbind(max_var, max_ir)
+  
+  rep_velos <- rbind.data.frame(rep_velos,data_new)
+}
+
+colnames(rep_velos) <- c("elb_var_max", "shldr_ir_max")
+
+please_work <- cbind.data.frame(please_work, rep_velos)
+
+
+
+write.csv(please_work, "~/GitHub/diss/data/please_work.csv")
 
 
 
