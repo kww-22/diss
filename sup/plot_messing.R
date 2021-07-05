@@ -4,7 +4,9 @@ path <- getwd()
 
 please_work <- read.csv("~/GitHub/diss/data/please_work.csv", stringsAsFactors = T)
 
-p1 <- ggplot(data = subset(please_work, pID %in% please_work$pID[runif(3,1,nrow(please_work))]), aes(x = shldr_ir, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
+pIDs <- tibble(unique(please_work$pID))
+
+p1 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(3,1,nrow(pIDs))]), aes(x = shldr_ir, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
   geom_point(size = 3, show.legend = F) +
   # geom_label() +
   theme_bw() +
@@ -16,7 +18,7 @@ p1 <- ggplot(data = subset(please_work, pID %in% please_work$pID[runif(3,1,nrow(
   xlim(c(10,95))
 
 
-p2 <- ggplot(data = subset(please_work, pID %in% please_work$pID[runif(3,1,nrow(please_work))]), aes(x = elb_var, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
+p2 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(3,1,nrow(pIDs))]), aes(x = elb_var, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
   geom_point(size = 3, show.legend =T) +
   # geom_label() +
   theme_bw() +

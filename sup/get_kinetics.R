@@ -42,8 +42,10 @@ please_work <- cbind.data.frame(data_warm, kinetics_info)
 #### get max kinetics for each participant and cbind them to please_work ####
 
 please_work %>% group_by(pID) %>%
-  summarise(max_elb_var=max(elb_var, na.rm = T),
-            max_shldr_ir=max(shldr_ir, na.rm = T)) -> max_kinetics
+  summarise(max_elb_var = max(elb_var, na.rm = T),
+            max_shldr_ir = max(shldr_ir, na.rm = T),
+            min_elb_var = min(elb_var, na.rm = T),
+            min_shldr_ir = min(shldr_ir, na.rm = T)) -> max_kinetics
 
 num_throws <- table(please_work$pID)
 
@@ -52,12 +54,14 @@ rep_velos <- data.frame()
 for(i in 1:length(num_throws)){
   max_var <- matrix(rep(max_kinetics$max_elb_var[i],num_throws[i])) 
   max_ir <- matrix(rep(max_kinetics$max_shldr_ir[i],num_throws[i]))
-  data_new <- cbind(max_var, max_ir)
+  min_var <- matrix(rep(max_kinetics$min_elb_var[i], num_throws[i]))
+  min_ir <- matrix(rep(max_kinetics$min_shldr_ir[i], num_throws[i]))
+  data_new <- cbind(max_var, max_ir, min_var, min_ir)
   
   rep_velos <- rbind.data.frame(rep_velos,data_new)
 }
 
-colnames(rep_velos) <- c("elb_var_max", "shldr_ir_max")
+colnames(rep_velos) <- c("elb_var_max", "shldr_ir_max", "elb_var_min", "shldr_ir_min")
 
 please_work <- cbind.data.frame(please_work, rep_velos)
 
