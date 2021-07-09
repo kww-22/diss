@@ -4,9 +4,9 @@ path <- getwd()
 
 please_work <- read.csv("~/GitHub/diss/data/please_work.csv", stringsAsFactors = T)
 
-pID <- tibble(unique(please_work$pID))
+pIDs <- tibble(unique(please_work$pID))
 
-p1 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(3,1,nrow(pIDs))]), aes(x = shldr_ir, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
+p1 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(5,1,nrow(pIDs))]), aes(x = shldr_ir, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
   geom_point(size = 3, show.legend = F) +
   # geom_label() +
   theme_bw() +
@@ -18,7 +18,7 @@ p1 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(3,1,nrow(pIDs))
   xlim(c(10,95))
 
 
-p2 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(3,1,nrow(pIDs))]), aes(x = elb_var, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
+p2 <- ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(5,1,nrow(pIDs))]), aes(x = elb_var, y = velo, shape = pID, color = pID, label = paste0(pID,".",throw))) +
   geom_point(size = 3, show.legend =T) +
   # geom_label() +
   theme_bw() +
@@ -66,7 +66,7 @@ ggplot(data = please_work, aes(x = elb_var, y = velo, color = pID)) +
   theme(aspect.ratio = 1,
         axis.text = element_text(size = 16),
         axis.title = element_text(size = 14)) +
-  geom_smooth(method = "lm", formula = y ~ x + log(x), se = F, size = 1.5) + 
+  geom_smooth(method = "lm", formula = y ~ poly(x,2), se = F, size = 1.5) + 
   # plot fixed effect line
   geom_line(data = lin.data, aes(x = x, y = y), color = "black", size = 2) +
   labs(x = "Shoulder Rotation Torque (Nm)",
