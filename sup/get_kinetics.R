@@ -9,7 +9,7 @@
 
 #### initialize data frome and set directory ####
 kinetics_info <- data.frame()
-setwd("C:/Users/kylew/Documents/GitHub/diss/data/txts")
+setwd("C:/Users/kylew/Documents/GitHub/diss/data/txts_test")
 file_list <- list.files(pattern = "warmup")
 
 #### loop through txt files ####
@@ -25,8 +25,8 @@ for(i in 1:length(file_list)){
     ind_max <- which.max(txt_data$LwristLinVelo)
   }
   txt_new <- txt_data[1:ind_max,]
-  max_elb_var <- max(txt_new$elbVar)
-  max_shldr_IR <- max(txt_new$shldrIR)
+  max_elb_var <- max(txt_new$var_mom)
+  max_shldr_IR <- max(txt_new$ir_mom)
   row_data <- c(max_elb_var, max_shldr_IR)}
   kinetics_info <- rbind.data.frame(kinetics_info, row_data)
 }
@@ -67,7 +67,7 @@ please_work <- cbind.data.frame(please_work, rep_velos)
 
 
 
-write.csv(please_work, "~/GitHub/diss/data/please_work.csv")
+write.csv(please_work, "~/GitHub/diss/data/please_work_test.csv")
 
 
 

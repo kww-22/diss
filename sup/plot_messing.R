@@ -43,7 +43,7 @@ lin.data <- tibble(x = lin.curve[["x"]],
 
 
 
-ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(8,1,nrow(pIDs))]), 
+ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(35,1,nrow(pIDs))]), 
                      aes(x = elb_var, y = velo, color = pID)) +
   geom_point(size = 3, show.legend = F) +
   # geom_label() +
@@ -59,7 +59,8 @@ ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(8,1,nrow(pIDs))]),
        caption = "Kyle Wasserberger (@kww_AU)") 
   
 
-ggplot(data = please_work, aes(x = elb_var, y = velo, color = pID)) +
+ggplot(data = please_work[which(please_work$pID == "p34"),],
+       aes(x = elb_var, y = velo, color = pID)) +
   geom_point(size = 3, show.legend = F) +
   # geom_label() +
   theme_bw() +
