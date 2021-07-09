@@ -47,7 +47,7 @@ for i = 1:length(names_old)
                      fullfile(path, strrep(fileNames{names_yes(j)}, names_old(i), names_new(i))), 'f');
         end
     % redifine fileNames and directory information
-    fileDir = dir('*tak');
+    fileDir = dir('*txt');
     fileNames = {fileDir.name}.';
 end
 
