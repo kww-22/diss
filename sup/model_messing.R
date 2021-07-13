@@ -16,8 +16,13 @@ m2 <- lmer(velo ~ elb_var + I(elb_var^2) + (1|pID), data = please_work,
            REML = T, control = lmerControl(optimizer = "Nelder_Mead"))
 m3 <- lmer(velo ~ elb_var + I(elb_var^2) + (1 + elb_var|pID), data = please_work,
            REML = T, control = lmerControl(optimizer = "Nelder_Mead"))
+m3 <- lmer(velo ~ shldr_ir + log(shldr_ir) + (1 + shldr_ir|pID), data = please_work,
+           REML = T, control = lmerControl(optimizer = "Nelder_Mead"))
 # m4 <- lmer(velo ~ elb_var + log(elb_var) + (1 + elb_var|pID), data = please_work,
 #            REML = T, control = lmerControl(optimizer = "Nelder_Mead"))
+
+m5 <- lmer(velo ~ log(shldr_ir) + (1 + log(shldr_ir)|pID), data = please_work,
+           REML = T, control = lmerControl(optimizer = "Nelder_Mead"))
 
 screenreg(list(m1,m2, m3), digits = 4, single.row = T,
           custom.model.names = c("Rand Int","Poly","Poly + RS"))

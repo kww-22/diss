@@ -36,12 +36,14 @@ patchwork + plot_annotation(
   caption = "Kyle Wasserberger (@kwwAU)"
 )
 
-p1 <- plot(please_work$elb_var, please_work$velo)
-lin.curve <- curve(cbind(1,x,x^2) %*% fixef(m3), add = T)
+p1 <- plot(please_work$shldr_ir, please_work$velo)
+lin.curve <- curve(cbind(1,x,log(x)) %*% fixef(m3), add = T)
 lin.data <- tibble(x = lin.curve[["x"]],
                    y = lin.curve[["y"]])
 
-
+log.curve <- curve(cbind(1,log(x)) %*% fixef(m5), add = T)
+log.data <- tibble(x = log.curve[["x"]],
+                   y = log.curve[["y"]])
 
 ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(35,1,nrow(pIDs))]), 
                      aes(x = elb_var, y = velo, color = pID)) +
@@ -59,8 +61,8 @@ ggplot(data = subset(please_work, pID %in% pIDs[[1]][runif(35,1,nrow(pIDs))]),
        caption = "Kyle Wasserberger (@kww_AU)") 
   
 
-ggplot(data = please_work[which(please_work$pID == "p34"),],
-       aes(x = elb_var, y = velo, color = pID)) +
+ggplot(data = please_work,
+       aes(x = shldr_ir, y = velo, color = pID)) +
   geom_point(size = 3, show.legend = F) +
   # geom_label() +
   theme_bw() +
@@ -70,6 +72,7 @@ ggplot(data = please_work[which(please_work$pID == "p34"),],
   geom_smooth(method = "lm", formula = y ~ poly(x,2), se = F, size = 1.5) + 
   # plot fixed effect line
   geom_line(data = lin.data, aes(x = x, y = y), color = "black", size = 2) +
+  geom_line(data = log.data, aes(x = x, y = y), color = "black", lty = 2, size = 2) +
   labs(x = "Shoulder Rotation Torque (Nm)",
        y = "Ball Speed (mph)",
        caption = "Kyle Wasserberger (@kww_AU)") 

@@ -7,6 +7,8 @@
 # last updated: 2021-07-01
 # =====================
 
+#
+library(tidyverse)
 #### initialize data frome and set directory ####
 kinetics_info <- data.frame()
 setwd("C:/Users/kylew/Documents/GitHub/diss/data/txts_test")
